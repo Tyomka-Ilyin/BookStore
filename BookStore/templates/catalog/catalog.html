@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load tagsCatalog %}
+
+{% block title %} Каталог {% endblock %}
+
+{% block content %}
+        <!-- Navigation-->
+        {% include 'navbar.html' %}
+
+        <!-- Page Content-->
+        <div class="container" style="background-color:#9BEDF8">
+            <h1 class="my-4" align="center">Умная книга</h1>
+
+            <form class="form-inline" method="get" action="{% url 'search' %}">
+                <input type="text" placeholder="Название книги.." class="form-control mb-3 mx-1" style="background-color:#D9F8FC; width:88%" name="titleBook">
+                <input type="submit" value="Найти" class="btn btn-primary mb-3" style="background-color:#032C87; color: white; width:11%">
+            </form>
+
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="list-group">
+                            {% getGenres as Genres %}
+                            {% for genre in Genres %}
+                                <a class="list-group-item" style="background-color:#D9F8FC; color: black" href="{% url 'genre' genre.id %}" title="{{ genre.description }}">{{ genre.title }}</a>
+                            {% endfor %}
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="row">
+
+                        {% setBook structure as setBooks %}
+                        {%  setBuysBook buys as setBuysBooks %}
+                            {% for book in books %}
+                                <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100" style="background-color:#D9F8FC">
+                                {% if book.image %}
+                                    <h1 align="center" style="padding:10px"><img height="250" width="200" src="{{ MEDIA_URL }}{{ book.image.url }}"/></h1>
+                                {% endif %}
+                                <div class="card-body">
+                                    <h4 class="card-title"><a href="{% url 'detailBook' book.id %}" style="color: #F59829">{{ book.title }}</a></h4>
+                                    <h5>{{ book.author }}</h5>
+                                    <h5>{{ book.nds.priceWithNDS }} руб.</h5>
+                                    {% if request.user.is_authenticated %}
+                                        {% if book.title in setBuysBooks %}
+                                            <a href="{{ book.bookFile.url }}" class="btn btn-primary" style="background-color:green" download="{{ book.bookFile.url }}">Скачать</a>
+                                        {% else %}
+                                            {% if book.title in setBooks %}
+                                            <form action="{% url 'cart' %}">
+                                                <input type="submit" class="btn btn-primary" style="background-color:red" value="В корзине">
+                                            </form>
+                                            {% else %}
+                                            <form action="{% url 'addToCartInCatalog' book.id %}">
+                                                <input type="submit" class="btn btn-primary" style="background-color:#032C87" value="В корзину">
+                                            </form>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="container" style="padding-top:35%"></div>
+
+        </div>
+
+        <!-- Footer-->
+        {% include 'footer.html' %}
+
+{% endblock %}

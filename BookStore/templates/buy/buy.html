@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load tagsCatalog %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}
+{{ book.title }}
+{% endblock %}
+
+ <script src="https://js.stripe.com/v3/"></script>
+<script src="{% static 'main.js' %}"></script>
+
+{% block content %}
+
+    {% include 'navbar.html' %}
+        <!-- Page Content-->
+
+        <div class="container" style="padding:258px">
+                <h3>Информация о покупке</h3>
+                     <dl class="row">
+                         <dt class="col-sm-3">Количество товаров:</dt>
+                         <dd class="col-sm-9">{{ structure.count }}</dd>
+                     </dl>
+
+                    <dl class="row">
+                         <dt class="col-sm-3">Сумма заказа:</dt>
+                         <dd class="col-sm-9">{{ cart.sumCart }} руб.</dd>
+                     </dl>
+
+                    <dl class="row">
+                         <dt class="col-sm-3">Количество бонусов:</dt>
+                         <dd class="col-sm-9">{{ bonus.kolBonus }}</dd>
+                     </dl>
+
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <input type="submit" value="Купить">
+                </form>
+        </div>
+        <!-- Footer-->
+        {% include 'footer.html' %}
+
+{% endblock %}

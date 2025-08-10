@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load tagsCatalog %}
+
+{% block title %}
+{{ book.title }}
+{% endblock %}
+
+{% block content %}
+
+        {% include 'navbar.html' %}
+
+        <!-- Page Content-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <div class="card mt-4" style="background-color:#D9F8FC">
+                        <h1 align="center"><img height="550" width="400" src="{{ MEDIA_URL }}{{ book.image.url }}"/></h1>
+                        <div class="card-body">
+                            <h2 align="center" class="card-title" >{{ book.title }}</h2>
+
+                            <dl class="row">
+                                <dt class="col-sm-3">Автор:</dt>
+                                <dd class="col-sm-9">{{ book.author }}</dd>
+                            </dl>
+
+                            <dl class="row">
+                                <dt class="col-sm-3">Возрастное ограничение:</dt>
+                                <dd class="col-sm-9">{{ book.ageLimit }}+</dd>
+                            </dl>
+
+                            <dl class="row">
+                                <dt class="col-sm-3">Количество страниц:</dt>
+                                <dd class="col-sm-9">{{ book.kolPages }}</dd>
+                            </dl>
+
+                            <dl class="row">
+                                <dt class="col-sm-3">Издательство:</dt>
+                                <dd class="col-sm-9">{{ book.publishing }}</dd>
+                            </dl>
+
+                            <dl class="row">
+                                <dt class="col-sm-3">Дата публикации:</dt>
+                                <dd class="col-sm-9">{{ book.yearPublication }}</dd>
+                            </dl>
+
+                            <h4>Описание:</h4>
+                            <p class="card-text">{{ book.description }}</p>
+
+                            <dl class="row">
+                                <dt class="col-sm-3">Цена с учетом НДС:</dt>
+                                <dd class="col-sm-9">{{ book.nds.priceWithNDS }} руб.</dd>
+                            </dl>
+
+                            <dl class="row">
+                                <dt class="col-sm-3">Цена без учета НДС:</dt>
+                                <dd class="col-sm-9">{{ book.nds.priceNoNDS }} руб.</dd>
+                            </dl>
+
+                            <h2 align="center" class="card-title">
+                                {% if request.user.is_authenticated %}
+                                    {% setBook structure as setBooks %}
+                                    {% setBuysBook buys as setBuysBooks %}
+
+                                    {% if book.title in setBuysBooks %}
+                                             <a href="{{ book.bookFile.url }}" class="btn btn-primary" style="background-color:green" download="{{ book.bookFile.url }}">Скачать</a>
+                                    {% else %}
+                                        {% if book.title in setBooks %}
+                                        <form action="/cart/">
+                                            <input type="submit" class="btn btn-primary" style="background-color:red" value="В корзине">
+                                        </form>
+                                        {% else %}
+                                        <form action="{% url 'addToCartInDetailBook' book.id %}">
+                                            <input type="submit" class="btn btn-primary" style="background-color:#032C87" value="В корзину">
+                                        </form>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer-->
+        {% include 'footer.html' %}
+
+{% endblock %}

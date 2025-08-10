@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} Регистрация {% endblock %}
+
+{% block content %}
+
+{% include 'navbar.html' %}
+
+<form method="post" style="padding: 50px;background: #ccc;position: fixed; top: 50%; left: 50%;-webkit-transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);transform: translate(-50%, -50%);">
+  {% csrf_token %}
+    {{ form|crispy }}
+    <input type="submit" class="btn btn-primary" value="Зарегистрироваться">
+</form>
+
+{% endblock %}

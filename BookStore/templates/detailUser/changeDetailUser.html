@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load tagsCatalog %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Личный кабинет
+{% endblock %}
+
+{% block content %}
+        <!-- Navigation-->
+        {% include 'navbar.html' %}
+        <!-- Page Content-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <form method="post">
+                                 {% csrf_token %}
+                                 {{ form|crispy }}
+
+                                <input type="submit" value="Сохранить">
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer-->
+        {% include 'footer.html' %}
+
+{% endblock %}

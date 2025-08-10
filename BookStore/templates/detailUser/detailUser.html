@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load tagsCatalog %}
+
+{% block title %}
+Личный кабинет
+{% endblock %}
+
+{% block content %}
+        <!-- Navigation-->
+        {% include 'navbar.html' %}
+        <!-- Page Content-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <div class="card mt-4" style="background-color:#D9F8FC">
+                        <div class="card-body">
+                            <h2 align="center" class="card-title" >{{ user.last_name }} {{ user.first_name }}</h2>
+
+                            <dl class="row">
+                                <dt class="col-sm-3">Моя почта</dt>
+                                <dd class="col-sm-9">{{ user.email }}</dd>
+                            </dl>
+
+                            <dl class="row">
+                                <dt class="col-sm-3">Мои бонусы</dt>
+                                <dd class="col-sm-9">{{ bonus.kolBonus }}</dd>
+                            </dl>
+
+                            <div class="container">
+                            {% if structureBuys %}
+
+                                <h2 align="center">Мои покупки</h2>
+
+                                <table class="table">
+
+                                    <tbody>
+                                    {% for item in structureBuys %}
+                                        <tr>
+                                            <td><h4 align="center"><img height="250" width="200" src="{{ MEDIA_URL }}{{ item.book.image.url }}"/></h4></td>
+                                            <td><h4 align="center">{{ item.book.title }}</h4></td>
+                                            <td><h4 align="center">Цена: {{ item.book.nds.priceWithNDS }} руб.</h4></td>
+                                        </tr>
+                                    {% endfor %}
+                                     </tbody>
+                                 </table>
+
+                                <div class="container" style="padding-top:45%"></div>
+
+                            {% else %}
+                                <div class="container" style="padding-top:30%; padding-bottom:30%">
+                                    <h2 align="center">Вы не совершили ни одной покупки</h2>
+                                </div>
+                            {% endif %}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer-->
+        {% include 'footer.html' %}
+
+{% endblock %}

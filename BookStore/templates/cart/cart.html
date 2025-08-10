@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load tagsCatalog %}
+
+{% block title %}
+{{ book.title }}
+{% endblock %}
+
+{% block content %}
+
+        {% include 'navbar.html' %}
+        <!-- Page Content-->
+
+        <div class="container" style="background-color:#D9F8FC">
+            {% if structure.count %}
+                <h2 align="center">Общая сумма: {{ cart.sumCart }} руб.</h2>
+                <h2 align="center"><button class="btn btn-primary" type="submit" onclick="location.href='{% url 'buy' %}'">Перейти к покупке</button></h2>
+
+                <table class="table">
+
+                <tbody>
+                {% for item in structure %}
+                <tr>
+                    <td><h4 align="center"><img height="250" width="200" src="{{ MEDIA_URL }}{{ item.book.image.url }}"/></h4></td>
+                    <td><h4 align="center">{{ item.book.title }}</h4></td>
+                    <td><h4 align="center">Цена: {{ item.book.nds.priceWithNDS }} руб.</h4></td>
+                    <td><button type="submit" class="btn btn-primary" onclick="location.href='{% url 'deleteBook' item.book.id %}'" >Удалить</button> </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+             <div class="container" style="padding-top:45%"></div>
+            {% else %}
+                 <div class="container" style="padding-top:35%; padding-bottom:35%">
+                     <h2 align="center">Корзина пустая</h2>
+                 </div>
+            {% endif %}
+
+        </div>
+        <!-- Footer-->
+        {% include 'footer.html' %}
+
+{% endblock %}

@@ -1,0 +1,47 @@
+#catalogDiv{
+    display: grid;
+    grid-template-columns: 20% 79%;
+    grid-column-gap: 1%;
+
+    margin-top: 1%;
+
+    height: auto;
+}
+
+#genreDiv{
+	background-color: rgb(115, 63, 15);
+
+	display: grid;
+	grid-template-rows: repeat(auto, 10%);
+	grid-row-gap: 3em;
+
+	height: 1000px;
+}
+
+#booksDiv{
+	background-color: rgb(245, 151, 64);
+
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-gap: 1em;
+	grid-auto-rows: minmax(1fr, auto);
+
+}
+
+.link{
+	color: white;
+
+	font-size: 20px;
+}
+
+.divGenre{
+	text-align: center;
+	background-color: rgb(115, 63, 15);
+	border-style: groove;
+	border-color: rgb(245, 151, 64);
+}
+
+.divBook{
+	text-align: center;
+	background-color: rgb(115, 63, 15);
+}
